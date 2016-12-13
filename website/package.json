@@ -1,0 +1,48 @@
+{
+  "name": "website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "postinstall": "yarn --cwd ../ install && yarn --cwd ../ build"
+  },
+  "dependencies": {
+    "@docsearch/css": "3.0.0-alpha.42",
+    "@docsearch/react": "3.0.0-alpha.42",
+    "classnames": "2.3.1",
+    "github-slugger": "1.4.0",
+    "next": "10.2.3",
+    "next-seo": "4.29.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-to-text": "1.0.1",
+    "react-use": "17.3.2",
+    "semver": "7.3.5"
+  },
+  "devDependencies": {
+    "@mdx-js/react": "1.6.22",
+    "@types/github-slugger": "1.3.0",
+    "@types/react": "17.0.38",
+    "@types/semver": "7.3.9",
+    "autoprefixer": "10.4.4",
+    "brotli-size-cli": "1.0.0",
+    "globby": "11.1.0",
+    "gray-matter": "4.0.3",
+    "gzip-size-cli": "5.0.1",
+    "junk": "3.1.0",
+    "mdx-prism": "0.3.4",
+    "next-mdx-remote": "3.0.8",
+    "postcss": "8.4.12",
+    "prettier": "2.6.0",
+    "rehype": "11.0.0",
+    "remark": "13.0.0",
+    "remark-autolink-headings": "6.1.0",
+    "remark-code-titles": "0.1.2",
+    "remark-slug": "6.1.0",
+    "strip-markdown": "4.2.0",
+    "tailwindcss": "2.2.19",
+    "typescript": "4.6.2"
+  }
+}

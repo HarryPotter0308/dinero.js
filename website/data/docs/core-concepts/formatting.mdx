@@ -1,0 +1,110 @@
+---
+title: Formatting
+description: Formatting Dinero objects into rounded numbers or string representation.
+---
+
+When working with money on the front end, comes a time when you need to display amounts on the user interface. The Dinero.js API provides functions to format objects.
+
+```js
+import { dinero, toUnit, down } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
+
+const d = dinero({ amount: 1055, currency: USD });
+
+toUnit(d, { digits: 1, round: down }); // 10.5
+```
+
+## Displaying an object
+
+Dinero objects are ideal to safely manipulate money, but at some point, you need to display them. The `toFormat` function lets you display objects the way you want. It exposes a pre-formatted amount for convenience.
+
+```js
+import { dinero, toFormat } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
+
+const transformer = ({ amount, currency }) => `${currency.code} ${amount}`;
+
+const d = dinero({ amount: 5000, currency: USD });
+
+toFormat(d, transformer); // "USD 50"
+```
+
+Dinero.js uses the scale of the object to determine how many decimal places to represent. You can adjust it in the `transformer`.
+
+```js
+import { dinero, toFormat, up } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
+
+const transformer = ({ amount, currency }) => `${currency.code} ${amount.toFixed(1)}`;
+
+const d = dinero({ amount: 4545, currency: USD });
+
+toFormat(d, transformer, options); // "USD 45.5"
+```
+
+If you're formatting many objects, you might want to reuse the same transformer without having to pass it every time. To do so, you can write your own higher-order function to build formatters.
+
+```js
+import { dinero, toFormat } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
+
+// This function lets you pass a transformer and rounding options.
+// It returns a function that takes a Dinero object and applies
+// the closured transformer.
+function createFormatter(transformer) {
+  return function formatter(dineroObject) {
+    return toFormat(dineroObject, transformer);
+  };
+}
+
+// This function is reusable to format any Dinero object
+// with the same transformer.
+const format = createFormatter(
+  ({ amount, currency }) => `${currency.code} ${amount}`
+);
+
+const d = dinero({ amount: 5000, currency: USD });
+
+format(d); // "USD 50"
+```
+
+<Panel
+  groups={[
+    {
+      label: 'API',
+      links: [
+        {
+          title: 'To format',
+          url: '/docs/api/formatting/to-format',
+        },
+      ],
+    },
+  ]}
+/>
+
+## Retrieving raw data
+
+One of the most convenient formatting functions in Dinero.js is `toSnapshot`. Its primary usage isn't the front end but to take snapshots of Dinero objects to inspect them.
+
+Whenever you need to access a Dinero object's raw data, `toSnapshot` is the go-to function.
+
+```js
+import { dinero, toSnapshot } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
+
+const d = dinero({ amount: 5000, currency: USD });
+
+toSnapshot(d);
+
+// {
+//   amount: 5000,
+//   currency: {
+//     code: 'EUR',
+//     base: 10,
+//     exponent: 2,
+//   },
+//   scale: 2,
+// }
+```
+
+Another useful usage of `toSnapshot` is transport and storage. To do so, check the advanced guide on [transporting and restoring](/docs/advanced/transporting-and-restoring).
